@@ -1,6 +1,6 @@
 
 /*
-line-chart - v1.1.2 - 12 July 2014
+line-chart - v1.1.2 - 05 August 2014
 https://github.com/n3-charts/line-chart
 Copyright (c) 2014 n3-charts
  */
@@ -1097,6 +1097,9 @@ mod.factory('n3utils', [
         xAxis = d3.svg.axis().scale(x).orient('bottom').tickFormat(axesOptions.x.labelFunction);
         yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(axesOptions.y.labelFunction);
         y2Axis = d3.svg.axis().scale(y2).orient('right').tickFormat((_ref = axesOptions.y2) != null ? _ref.labelFunction : void 0);
+        if (axesOptions.x.ticks) {
+          xAxis.ticks(axesOptions.x.ticks);
+        }
         style = function(group) {
           group.style({
             'font': '10px Courier',

@@ -33,6 +33,9 @@
         yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(axesOptions.y.labelFunction)
         y2Axis = d3.svg.axis().scale(y2).orient('right').tickFormat(axesOptions.y2?.labelFunction)
 
+        if axesOptions.x.ticks
+          xAxis.ticks(axesOptions.x.ticks)
+
         style = (group) ->
           group.style(
             'font': '10px Courier'
