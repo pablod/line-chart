@@ -11,7 +11,8 @@
           drawLegend: true
           drawDots: true
           stacks: []
-          columnsHGap: 5
+          columnsHGap: 5,
+          style: {}
         }
 
       sanitizeOptions: (options, mode) ->
@@ -36,6 +37,8 @@
         options.drawDots = options.drawDots isnt false
 
         options.columnsHGap = 5 unless angular.isNumber(options.columnsHGap)
+
+        options.style or= {}
 
         return options
 

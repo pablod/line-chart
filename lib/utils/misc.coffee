@@ -183,13 +183,13 @@
 
         leftSeries = series.filter (s) -> s.axis isnt 'y2'
         leftWidest = this.getWidestOrdinate(data, leftSeries, options)
-        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest).width + 20
+        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest, options.style.font).width + 20
 
         rightSeries = series.filter (s) -> s.axis is 'y2'
         return unless rightSeries.length
 
         rightWidest = this.getWidestOrdinate(data, rightSeries, options)
-        dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest).width + 20
+        dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest, options.style.font).width + 20
 
       adjustMarginsForThumbnail: (dimensions, axes) ->
         dimensions.top = 1
@@ -197,10 +197,10 @@
         dimensions.left = 0
         dimensions.right = 1
 
-      estimateSideTooltipWidth: (svg, text) ->
+      estimateSideTooltipWidth: (svg, text, fontStyle) ->
         t = svg.append('text')
         t.text('' + text)
-        this.styleTooltip(t)
+        this.styleTooltip(t, fontStyle)
 
         bbox = this.getTextBBox(t[0][0])
         t.remove()

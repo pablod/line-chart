@@ -1,6 +1,6 @@
 
 /*
-line-chart - v1.1.2 - 05 August 2014
+line-chart - v1.1.2 - 06 August 2014
 https://github.com/n3-charts/line-chart
 Copyright (c) 2014 n3-charts
  */
@@ -819,7 +819,7 @@ mod.factory('n3utils', [
           return s.axis !== 'y2';
         });
         leftWidest = this.getWidestOrdinate(data, leftSeries, options);
-        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest).width + 20;
+        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest, options.style.font).width + 20;
         rightSeries = series.filter(function(s) {
           return s.axis === 'y2';
         });
@@ -827,7 +827,7 @@ mod.factory('n3utils', [
           return;
         }
         rightWidest = this.getWidestOrdinate(data, rightSeries, options);
-        return dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest).width + 20;
+        return dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest, options.style.font).width + 20;
       },
       adjustMarginsForThumbnail: function(dimensions, axes) {
         dimensions.top = 1;
@@ -835,11 +835,11 @@ mod.factory('n3utils', [
         dimensions.left = 0;
         return dimensions.right = 1;
       },
-      estimateSideTooltipWidth: function(svg, text) {
+      estimateSideTooltipWidth: function(svg, text, fontStyle) {
         var bbox, t;
         t = svg.append('text');
         t.text('' + text);
-        this.styleTooltip(t);
+        this.styleTooltip(t, fontStyle);
         bbox = this.getTextBBox(t[0][0]);
         t.remove();
         return bbox;
@@ -899,7 +899,8 @@ mod.factory('n3utils', [
           drawLegend: true,
           drawDots: true,
           stacks: [],
-          columnsHGap: 5
+          columnsHGap: 5,
+          style: {}
         };
       },
       sanitizeOptions: function(options, mode) {
@@ -925,6 +926,7 @@ mod.factory('n3utils', [
         if (!angular.isNumber(options.columnsHGap)) {
           options.columnsHGap = 5;
         }
+        options.style || (options.style = {});
         return options;
       },
       sanitizeSeriesStacks: function(stacks, series) {
@@ -1477,10 +1479,10 @@ mod.factory('n3utils', [
           };
         }
       },
-      styleTooltip: function(d3TextElement) {
+      styleTooltip: function(d3TextElement, fontStyle) {
         return d3TextElement.attr({
-          'font-family': 'monospace',
-          'font-size': 10,
+          'font-family': (fontStyle && fontStyle.family ? fontStyle.family : 'monospace'),
+          'font-size': (fontStyle && fontStyle.size ? fontStyle.size : 10),
           'fill': 'white',
           'text-rendering': 'geometric-precision'
         });

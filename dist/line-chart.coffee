@@ -1,5 +1,5 @@
 ###
-line-chart - v1.1.2 - 05 August 2014
+line-chart - v1.1.2 - 06 August 2014
 https://github.com/n3-charts/line-chart
 Copyright (c) 2014 n3-charts
 ###
@@ -764,13 +764,13 @@ mod.factory('n3utils', ['$window', '$log', '$rootScope', ($window, $log, $rootSc
 
         leftSeries = series.filter (s) -> s.axis isnt 'y2'
         leftWidest = this.getWidestOrdinate(data, leftSeries, options)
-        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest).width + 20
+        dimensions.left = this.estimateSideTooltipWidth(svg, leftWidest, options.style.font).width + 20
 
         rightSeries = series.filter (s) -> s.axis is 'y2'
         return unless rightSeries.length
 
         rightWidest = this.getWidestOrdinate(data, rightSeries, options)
-        dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest).width + 20
+        dimensions.right = this.estimateSideTooltipWidth(svg, rightWidest, options.style.font).width + 20
 
       adjustMarginsForThumbnail: (dimensions, axes) ->
         dimensions.top = 1
@@ -778,10 +778,10 @@ mod.factory('n3utils', ['$window', '$log', '$rootScope', ($window, $log, $rootSc
         dimensions.left = 0
         dimensions.right = 1
 
-      estimateSideTooltipWidth: (svg, text) ->
+      estimateSideTooltipWidth: (svg, text, fontStyle) ->
         t = svg.append('text')
         t.text('' + text)
-        this.styleTooltip(t)
+        this.styleTooltip(t, fontStyle)
 
         bbox = this.getTextBBox(t[0][0])
         t.remove()
@@ -833,7 +833,8 @@ mod.factory('n3utils', ['$window', '$log', '$rootScope', ($window, $log, $rootSc
           drawLegend: true
           drawDots: true
           stacks: []
-          columnsHGap: 5
+          columnsHGap: 5,
+          style: {}
         }
 
       sanitizeOptions: (options, mode) ->
@@ -858,6 +859,8 @@ mod.factory('n3utils', ['$window', '$log', '$rootScope', ($window, $log, $rootSc
         options.drawDots = options.drawDots isnt false
 
         options.columnsHGap = 5 unless angular.isNumber(options.columnsHGap)
+
+        options.style or= {}
 
         return options
 
@@ -1395,10 +1398,10 @@ mod.factory('n3utils', ['$window', '$log', '$rootScope', ($window, $log, $rootSc
             onMouseOut: angular.bind(this, this.onMouseOut)
           }
 
-      styleTooltip: (d3TextElement) ->
+      styleTooltip: (d3TextElement, fontStyle) ->
         return d3TextElement.attr({
-          'font-family': 'monospace'
-          'font-size': 10
+          'font-family': (if fontStyle and fontStyle.family then fontStyle.family else 'monospace')
+          'font-size': (if fontStyle and fontStyle.size then fontStyle.size else 10)
           'fill': 'white'
           'text-rendering': 'geometric-precision'
         })

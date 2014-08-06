@@ -216,7 +216,8 @@ describe 'misc', ->
       options =
         axes: {}
         series: [{y: 'value'}]
-        tooltip: {}
+        tooltip: {},
+        style: {}
 
       n3utils.adjustMargins(fakeSvg, dimensions, options, data)
 
@@ -246,7 +247,8 @@ describe 'misc', ->
           {y: 'value'}
           {y: 'foo'}
         ]
-        tooltip: {}
+        tooltip: {},
+        style: {}
 
       n3utils.adjustMargins(fakeSvg, dimensions, options, data)
 
@@ -276,7 +278,8 @@ describe 'misc', ->
           {y: 'value'}
           {axis: 'y2', y: 'foo'}
         ]
-        tooltip: {}
+        tooltip: {},
+        style: {}
 
       n3utils.adjustMargins(fakeSvg, dimensions, options, data)
 

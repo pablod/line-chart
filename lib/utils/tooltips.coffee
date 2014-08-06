@@ -9,10 +9,10 @@
             onMouseOut: angular.bind(this, this.onMouseOut)
           }
 
-      styleTooltip: (d3TextElement) ->
+      styleTooltip: (d3TextElement, fontStyle) ->
         return d3TextElement.attr({
-          'font-family': 'monospace'
-          'font-size': 10
+          'font-family': (if fontStyle and fontStyle.family then fontStyle.family else 'monospace')
+          'font-size': (if fontStyle and fontStyle.size then fontStyle.size else 10)
           'fill': 'white'
           'text-rendering': 'geometric-precision'
         })
